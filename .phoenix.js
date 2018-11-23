@@ -538,7 +538,7 @@ var win_center = function () {
 
 // non grammatical
 // for this to work, have to change alt cmd space spotlight open finder window shortcut
-var ngMax = new Key('space', ['alt','cmd'], win_max);
+Key.on('space', ['alt','cmd'], win_max);
 
 var win_left = function() {
   var win = Window.focused();
@@ -570,9 +570,45 @@ var win_right = function() {
   }
 }
 
+var win_up = function() {
+  var win = Window.focused();
+
+  if (win) {
+    var screenF = win.screen().visibleFrameInRectangle();
+
+    win.setFrame({
+      x: screenF.x + 0,
+      y: screenF.y + 0,
+      width: screenF.width,
+      height: Math.floor(screenF.height/2)
+    })
+  }
+}
+
+var win_down = function() {
+  var win = Window.focused();
+
+  if (win) {
+    var screenF = win.screen().visibleFrameInRectangle();
+
+    win.setFrame({
+      x: screenF.x + 0,
+      y: screenF.y + Math.floor(screenF.height/2),
+      width: screenF.width,
+      height: Math.floor(screenF.height/2)
+    })
+  }
+}
+
+
+
 var ngLeft = Key.on('left', ['alt','cmd'], win_left);
 
 var ngRight = Key.on('right', ['alt','cmd'], win_right);
+
+var ngUp = Key.on('up', ['alt','cmd'], win_up);
+var ngDown = Key.on('down', ['alt','cmd'], win_down);
+
 
 // if current screen is smaller, proportionally resize it
 var nextScreen = function() {
